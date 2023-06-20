@@ -1,30 +1,19 @@
-resource "aws_ecr_repository" "rails" {
-  name = "prod-rails"
+module "rails" {
+  source = "../../../modules/ecr"
+
+  name = "readablecoder-prod-rails"
 
   tags = {
-    Name = "prod-rails"
+    Name = "readablecoder-prod-rails"
   }
 }
 
-resource "aws_ecr_lifecycle_policy" "rails" {
-  policy = jsonencode(
-    {
-      "rules" : [
-        {
-          "rulePriority" : 1,
-          "description" : "Hold only 10 images, expire all others",
-          "selection" : {
-            "tagStatus" : "any",
-            "countType" : "imageCountMoreThan",
-            "countNumber" : 10
-          },
-          "action" : {
-            "type" : "expire"
-          }
-        }
-      ]
-    }
-  )
+module "nginx" {
+  source = "../../../modules/ecr"
 
-  repository = aws_ecr_repository.rails.name
+  name = "readablecoder-prod-nginx"
+
+  tags = {
+    Name = "readablecoder-prod-nginx"
+  }
 }
