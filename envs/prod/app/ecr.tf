@@ -1,19 +1,11 @@
 module "rails" {
   source = "../../../modules/ecr"
 
-  name = "readablecoder-prod-rails"
-
-  tags = {
-    Name = "readablecoder-prod-rails"
-  }
+  name = "${local.name_prefix}-rails"
 }
 
 module "nginx" {
   source = "../../../modules/ecr"
 
-  name = "readablecoder-prod-nginx"
-
-  tags = {
-    Name = "readablecoder-prod-nginx"
-  }
+  name = "${local.name_prefix}-nginx"
 }
