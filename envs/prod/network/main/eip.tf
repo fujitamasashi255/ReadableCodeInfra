@@ -4,6 +4,6 @@ resource "aws_eip" "nat_gateway" {
   vpc = true
 
   tags = {
-    Name = "$`aws_vpc.this.tags.Name}-nat-gateway-${each.key}"
+    Name = "${aws_vpc.this.tags.Name}-nat-gateway-${each.key}"
   }
 }

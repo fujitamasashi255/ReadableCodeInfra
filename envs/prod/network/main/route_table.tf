@@ -1,4 +1,4 @@
-resource "asw_route_table" "public" {
+resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
 
   tags = {
@@ -18,7 +18,7 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public[each.key].id
 }
 
-resource "asw_route_table" "private" {
+resource "aws_route_table" "private" {
   for_each = var.azs
 
   vpc_id = aws_vpc.this.id
