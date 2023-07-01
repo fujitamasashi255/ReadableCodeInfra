@@ -6,10 +6,17 @@ resource "aws_lb" "this" {
   internal           = false
   load_balancer_type = "application"
 
+  access_logs {
+    bucket  = data.terraform_remote_state.log_alb.outputs.s3_bucket_this_id
+    enabled = true
+    prefix  = "readablecoder-com"
+  }
+
   security_groups = [
     data.terraform_remote_state.network_main.outputs.security_group_web_id,
     data.terraform_remote_state.network_main.outputs.security_group_vpc_id,
   ]
+
   subnets = [
     for s in data.terraform_remote_state.network_main.outputs.subnet_public : s.id
   ]
@@ -32,9 +39,9 @@ resource "aws_lb_listener" "https" {
     type = "fixed-response"
 
     fixed_response {
-      content_type  = "text/plain"
+      content_type = "text/plain"
       message_body = "Fixed response content"
-      status_code   = "200"
+      status_code  = "200"
     }
   }
 }
