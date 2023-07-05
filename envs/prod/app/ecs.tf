@@ -56,7 +56,7 @@ resource "aws_ecs_task_definition" "this" {
 
         mountPoints = [
           {
-            containerPath = "/app/sockets"
+            containerPath = "/app/tmp/sockets"
             sourceVolume  = "puma-socket"
           }
         ]
@@ -78,11 +78,16 @@ resource "aws_ecs_task_definition" "this" {
         portMappings = []
 
         environment = []
-        secrets     = []
+        secrets = [
+          {
+            name      = "RAILS_MASTER_KEY"
+            valueFrom = "/${local.app_name}/${local.env_name}/RAILS_MASTER_KEY"
+          }
+        ]
 
         mountPoints = [
           {
-            containerPath = "/app/sockets"
+            containerPath = "/app/tmp/sockets"
             sourceVolume  = "puma-socket"
           }
         ]
