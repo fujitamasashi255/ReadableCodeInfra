@@ -40,3 +40,23 @@ resource "aws_iam_role_policy_attachment" "role_deployer_policy_ecr_power_user" 
   role       = aws_iam_role.deployer.name
   policy_arn = data.aws_iam_policy.ecr_power_user.arn
 }
+
+resource "aws_iam_role_policy" "s3" {
+  name = "s3"
+  role = aws_iam_role.deployer.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "s3:GetObject"
+          ],
+          "Resource" : "arn:aws:s3:::readable-coder-tfstate/${local.app_name}/${local.env_name}/cicd.tfstate"
+        }
+      ]
+    }
+  )
+}
