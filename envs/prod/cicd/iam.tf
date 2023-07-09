@@ -60,3 +60,46 @@ resource "aws_iam_role_policy" "s3" {
     }
   )
 }
+
+resource "aws_iam_role_policy" "ecs" {
+  name = "ecs"
+  role = aws_iam_role.deployer.id
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Sid" : "RegisterTaskDefinition",
+          "Effect" : "Allow",
+          "Action" : [
+            "ecs:RegisterTaskDefinition"
+          ],
+          "Resource" : "*"
+        },
+        {
+          "Sid" : "PassRolesInTaskDefinition",
+          "Effect" : "Allow",
+          "Action" : [
+            "iam:PassRole"
+          ],
+          "Resource" : [
+            data.aws_iam_role.ecs_task.arn,
+            data.aws_iam_role.ecs_task_execution.arn,
+          ]
+        },
+        {
+          "Sid" : "DeployService",
+          "Effect" : "Allow",
+          "Action" : [
+            "ecs:UpdateService",
+            "ecs:DescribeServices"
+          ],
+          "Resource" : [
+            data.aws_ecs_service.this.arn
+          ]
+        }
+      ]
+    }
+  )
+}
