@@ -54,7 +54,7 @@ resource "aws_iam_role_policy" "s3" {
           "Action" : [
             "s3:GetObject"
           ],
-          "Resource" : "arn:aws:s3:::readable-coder-tfstate/${local.app_name}/${local.env_name}/cicd.tfstate"
+          "Resource" : "arn:aws:s3:::readable-coder-tfstate/${local.env_name}/cicd.tfstate"
         }
       ]
     }
