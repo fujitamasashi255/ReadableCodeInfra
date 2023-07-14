@@ -28,6 +28,10 @@ data "aws_lb_target_group" "this" {
   name = local.name_prefix
 }
 
+data "aws_security_group" "db" {
+  name = "${local.name_prefix}-main-db"
+}
+
 data "aws_security_group" "vpc" {
   name = "${local.name_prefix}-main-vpc"
 }
