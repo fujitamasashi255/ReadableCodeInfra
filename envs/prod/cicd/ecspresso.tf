@@ -32,6 +32,10 @@ data "aws_security_group" "db" {
   name = "${local.name_prefix}-main-db"
 }
 
+data "aws_security_group" "cache" {
+  name = "${local.name_prefix}-main-cache"
+}
+
 data "aws_security_group" "vpc" {
   name = "${local.name_prefix}-main-vpc"
 }
